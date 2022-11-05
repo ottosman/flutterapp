@@ -58,8 +58,8 @@ class Profile extends StatelessWidget {
                           .readAsBytes(); //convert to bytes
                       String base64string = base64.encode(imagebytes);
                       log(base64string.toString());
-                      await Clipboard.setData(
-                          ClipboardData(text: base64string.toString()));
+                      //await Clipboard.setData(
+                      //   ClipboardData(text: base64string.toString()));
 
                       Navigator.push(
                           context,

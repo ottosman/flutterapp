@@ -57,7 +57,7 @@ class _KimlikPageState extends State<KimlikPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Text Recognition example"),
+        title: const Text("Lütfen kimlik fotoğrafını çekiniz"),
       ),
       body: Center(
           child: SingleChildScrollView(
@@ -165,8 +165,8 @@ class _KimlikPageState extends State<KimlikPage> {
                 Container(
                   child: Text(
                     tcKimlik == ""
-                        ? "TC No Bekleniyor..."
-                        : "TC No Tespit Edildi!! : " + tcKimlik,
+                        ? "TC kimlik fotoğrafı..."
+                        : "TC kimlik tespit edildi!! : " + tcKimlik,
                     style: TextStyle(fontSize: 35),
                   ),
                 )

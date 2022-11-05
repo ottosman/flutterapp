@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:developer';
+import 'dart:typed_data';
+import 'package:dio/dio.dart';
 import 'package:face_net_authentication/locator.dart';
 import 'package:face_net_authentication/pages/models/user.model.dart';
 import 'package:face_net_authentication/pages/widgets/auth_button.dart';
@@ -101,8 +105,39 @@ class SignInState extends State<SignIn> {
   Future<void> onTap() async {
     await takePicture();
     if (_faceDetectorService.faceDetected) {
+      log("QWDHIGWDWQFDWQDVQWJHDVQWJHDVQWHJDQVWDQWD" * 100);
       if (withoutAuth == true) {
         log("withoutAuth == true if statement");
+        User? user = await _mlService.predict();
+        // FileImage(File(imagePath))
+
+        Uint8List imagebytes =
+            await File(_cameraService.imagePath ?? "").readAsBytes();
+
+        Uint8List localImageBytes =
+            await File(_cameraService.imagePath ?? "").readAsBytes();
+
+        String base64string = base64.encode(imagebytes);
+
+        log(base64string);
+
+        // post arksigner
+        void formDataBasicSample() async {
+          var formData = FormData.fromMap({
+            'clientInfo': 'Powerpuffboys',
+            'transactionUUID': '6d0dfbbf-d560-4c21-a63e-f92a9c2dfb4f',
+            'firstFaceBase64': base64string,
+            "otherFacesBase64": base64string
+          });
+          var response = await Dio().post(
+              'https://nigdefacematch.arksigner.com/api/Face/match1facetomany',
+              data: formData);
+          print(response);
+        }
+
+        var bottomSheetController = scaffoldKey.currentState!
+            .showBottomSheet((context) => signInSheet(user: user!));
+        bottomSheetController.closed.whenComplete(_reload);
       } else {
         User? user = await _mlService.predict();
         var bottomSheetController = scaffoldKey.currentState!
